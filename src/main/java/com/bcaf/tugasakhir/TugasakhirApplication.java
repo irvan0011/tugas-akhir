@@ -8,6 +8,7 @@ public class TugasakhirApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TugasakhirApplication.class, args);
+		System.out.println("Server run successfully");
 	}
 
 }
