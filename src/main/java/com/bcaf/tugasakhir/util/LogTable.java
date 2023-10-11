@@ -10,7 +10,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
 public class LogTable {
     private LogRequestRepo logRequestRepo;
     public static void inputLogRequest(LogRequestRepo logRequestRepo,String[] datax,Exception e, String flag)

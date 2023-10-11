@@ -15,7 +15,6 @@ import javax.sql.DataSource;
 public class MainConfiguration {
     @Autowired
     private Environment environment;
-
     @Primary
     @Bean
     public DataSource getDataSource() {
@@ -26,9 +25,9 @@ public class MainConfiguration {
         dataSourceBuilder.password(Crypto.performDecrypt(environment.getProperty("spring.datasource.password")));//environment.getProperty("spring.datasource.password")
         return dataSourceBuilder.build();
     }
-
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
+
     }
 }
