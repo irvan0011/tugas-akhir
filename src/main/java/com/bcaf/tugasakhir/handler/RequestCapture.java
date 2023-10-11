@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 public class RequestCapture {
 
     public static String allRequest(WebRequest request,Object object)

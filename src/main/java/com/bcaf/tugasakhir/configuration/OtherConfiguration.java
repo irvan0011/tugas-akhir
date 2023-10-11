@@ -6,6 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+
 
 @Configuration
 @PropertySource("classpath:other.properties")
@@ -47,14 +50,15 @@ public class OtherConfiguration {
     public static String getFlagLoging() {
         return flagLoging;
     }
-    @Value("${flag.logging}")
-    private void setFlagLoging(String flagLoging) {
-        OtherConfiguration.flagLoging = flagLoging;
-    }
+
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder(10);
     }
 
+    @Value("${flag.loging}")
+    private void setFlagLoging(String flagLoging) {
+        OtherConfiguration.flagLoging = flagLoging;
+    }
 }

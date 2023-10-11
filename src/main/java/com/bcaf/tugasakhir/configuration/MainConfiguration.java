@@ -28,15 +28,6 @@ public class MainConfiguration {
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
-    }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder()
-//    {
-//        return NoOpPasswordEncoder.getInstance();
-//    }
-//    @Bean
-//    public BCryptPasswordEncoder passwordEncoder(){
-//        return new BCryptPasswordEncoder(10);
-//    }
+    }
 }

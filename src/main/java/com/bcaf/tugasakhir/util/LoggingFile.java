@@ -1,6 +1,5 @@
 package com.bcaf.tugasakhir.util;
 
-
 import org.apache.log4j.Logger;
 
 public class LoggingFile {
