@@ -26,7 +26,7 @@ public class VoteController {
     }
 
     @PostMapping("/v1/sv")
-    public ResponseEntity<Object> save(@Valid @RequestBody VoteDTO voteDTO, HttpServletRequest request)
+    public ResponseEntity<Object> save(@RequestBody VoteDTO voteDTO, HttpServletRequest request)
     {
         Vote vote = modelMapper.map(voteDTO, new TypeToken<Vote>() {}.getType());
         return voteService.save(vote,request);

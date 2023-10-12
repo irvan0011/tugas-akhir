@@ -38,7 +38,6 @@ public class Usr {
     @OneToMany(mappedBy = "user")
     @JsonBackReference
     private List<Vote> listVote;
-
     public List<Vote> getListVote() {
         return listVote;
     }
@@ -110,4 +109,5 @@ public class Usr {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
 }

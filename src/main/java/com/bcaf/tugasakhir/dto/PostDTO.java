@@ -21,7 +21,7 @@ public class PostDTO {
 
     private String fotoKonten;
 
-    private Date tanggalPost;
+    private Date tanggalPost = new Date();
 
     private Long idUser;
 
