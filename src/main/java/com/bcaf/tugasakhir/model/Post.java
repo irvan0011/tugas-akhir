@@ -117,4 +117,12 @@ public class Post implements Serializable {
     public void setListReply(List<Reply> listReply) {
         this.listReply = listReply;
     }
+
+    public List<Vote> getListVote() {
+        return listVote;
+    }
+
+    public void setListVote(List<Vote> listVote) {
+        this.listVote = listVote;
+    }
 }

@@ -16,11 +16,11 @@ public class Vote implements Serializable {
     private Boolean isVote;
 
     @ManyToOne
-    @JoinColumn(name = "IdPost", foreignKey = @ForeignKey(name = "fkVotetoPost"))
+    @JoinColumn(name = "IdPostz", foreignKey = @ForeignKey(name = "fkVotetoPost"))
     private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "IdUser", foreignKey = @ForeignKey(name = "fkVotetoUser"))
+    @JoinColumn(name = "IdUserz", foreignKey = @ForeignKey(name = "fkVotetoUser"))
     private Usr user;
 
     public Long getIdVote() {
