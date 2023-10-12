@@ -21,7 +21,7 @@ public class Reply implements Serializable{
     private String idUser;
 
     @ManyToOne
-    @JoinColumn(name = "IdPostz", foreignKey = @ForeignKey(name = "fkBarangToKategori1"))
+    @JoinColumn(name = "IdPostz", foreignKey = @ForeignKey(name = "fkReplytoPost"))
     private Post post;
 
     @Column(name = "TanggalReply",columnDefinition = "DATETIME NOT NULL default GETDATE()")

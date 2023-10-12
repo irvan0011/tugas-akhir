@@ -1,9 +1,14 @@
 package com.bcaf.tugasakhir.dto;
 
+import com.bcaf.tugasakhir.model.Post;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 public class LoginDTO {
 
@@ -23,6 +28,9 @@ public class LoginDTO {
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{10,20}$",message = "Minimal 1 simbol & alfanumeric , ex : Paul@123... Kombinasi Huruf dan Angka !!(Password Minimal 10 Maksimal 20 Karakter)")
 //    @Pattern(regexp = "",message = "Minimal 1 simbol & alfanumeric , ex : Paul@123...")//MINIMAL 1 SIMBOL & ALFANUMERIK
     private String password;
+
+    @JsonBackReference
+    private List<PostDTO> listPost;
 
     public Long getIdUser() {
         return idUser;
@@ -48,4 +56,11 @@ public class LoginDTO {
         this.password = password;
     }
 
+    public List<PostDTO> getListPost() {
+        return listPost;
+    }
+
+    public void setListPost(List<PostDTO> listPost) {
+        this.listPost = listPost;
+    }
 }
