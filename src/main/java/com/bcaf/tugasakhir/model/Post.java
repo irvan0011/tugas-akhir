@@ -35,8 +35,9 @@ public class Post implements Serializable {
     @Column(name = "TanggalPost",columnDefinition = "DATETIME NOT NULL default GETDATE()")
     private Date tanggalPost = new Date();
 
-    @Column(name = "IdUser")
-    private Long idUser;
+    @ManyToOne
+    @JoinColumn(name = "IdUser", foreignKey = @ForeignKey(name = "fkPostToUser"))
+    private Usr user;
 
     @OneToMany(mappedBy = "post")
     @JsonBackReference
@@ -102,12 +103,12 @@ public class Post implements Serializable {
         this.judulPost = judulPost;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public Usr getUser() {
+        return user;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setUser(Usr user) {
+        this.user = user;
     }
 
     public List<Reply> getListReply() {
