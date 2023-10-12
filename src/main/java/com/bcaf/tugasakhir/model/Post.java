@@ -42,6 +42,10 @@ public class Post implements Serializable {
     @JsonBackReference
     private List<Reply> listReply;
 
+    @OneToMany(mappedBy = "post")
+    @JsonBackReference
+    private List<Vote> listVote;
+
     public Long getIdPost() {
         return idPost;
     }
@@ -112,5 +116,13 @@ public class Post implements Serializable {
 
     public void setListReply(List<Reply> listReply) {
         this.listReply = listReply;
+    }
+
+    public List<Vote> getListVote() {
+        return listVote;
+    }
+
+    public void setListVote(List<Vote> listVote) {
+        this.listVote = listVote;
     }
 }
