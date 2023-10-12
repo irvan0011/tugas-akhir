@@ -1,6 +1,7 @@
 package com.bcaf.tugasakhir.dto;
 
 import com.bcaf.tugasakhir.model.Reply;
+import com.bcaf.tugasakhir.model.Usr;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ public class PostDTO {
 
     private Date tanggalPost = new Date();
 
-    private Long idUser;
+    private LoginDTO user;
 
     @JsonBackReference
     List<ReplyDTO> listReply;
@@ -84,12 +85,12 @@ public class PostDTO {
         this.tanggalPost = tanggalPost;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public LoginDTO getUser() {
+        return user;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public void setUser(LoginDTO user) {
+        this.user = user;
     }
 
     public List<ReplyDTO> getListReply() {
