@@ -42,6 +42,10 @@ public class Post implements Serializable {
     @JsonBackReference
     private List<Reply> listReply;
 
+    @OneToMany(mappedBy = "post")
+    @JsonBackReference
+    private List<Vote> listVote;
+
     public Long getIdPost() {
         return idPost;
     }

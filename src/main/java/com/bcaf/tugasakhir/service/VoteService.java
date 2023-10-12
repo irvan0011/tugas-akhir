@@ -2,22 +2,19 @@ package com.bcaf.tugasakhir.service;
 
 import com.bcaf.tugasakhir.configuration.OtherConfiguration;
 import com.bcaf.tugasakhir.core.IService;
-import com.bcaf.tugasakhir.dto.ReplyDTO;
+import com.bcaf.tugasakhir.dto.PostDTO;
+import com.bcaf.tugasakhir.dto.VoteDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
-import com.bcaf.tugasakhir.model.Reply;
+import com.bcaf.tugasakhir.model.Vote;
 import com.bcaf.tugasakhir.repo.LogRequestRepo;
-import com.bcaf.tugasakhir.repo.ReplyRepo;
+import com.bcaf.tugasakhir.repo.VoteRepo;
 import com.bcaf.tugasakhir.util.LogTable;
 import com.bcaf.tugasakhir.util.LoggingFile;
 import com.bcaf.tugasakhir.util.TransformDataPaging;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -30,10 +27,12 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ReplyService implements IService<Reply> {
+public class VoteService implements IService<Vote> {
 
-    private ReplyRepo replyRepo;
+    private VoteRepo voteRepo;
+
     private String [] strExceptionArr = new String[2];
+
     private TransformDataPaging transformDataPaging = new TransformDataPaging();
     private Map<String,Object> mapz = new HashMap<>();
     @Autowired
@@ -43,22 +42,21 @@ public class ReplyService implements IService<Reply> {
     private LogService logService;
     private ModelMapper modelMapper;
 
-    public ReplyService(ReplyRepo replyRepo) {
-        strExceptionArr[0] = "ReplyService";
-        this.replyRepo = replyRepo;
+    public VoteService(VoteRepo voteRepo) {
+        strExceptionArr[0] = "VoteService";
+        this.voteRepo = voteRepo;
     }
 
     @Autowired
-    public ReplyService(ReplyRepo replyRepo, ModelMapper modelMapper) {
-        strExceptionArr[0] = "ReplyService";
-        this.replyRepo = replyRepo;
+    public VoteService(VoteRepo voteRepo, ModelMapper modelMapper) {
+        strExceptionArr[0] = "VoteService";
+        this.voteRepo = voteRepo;
         this.modelMapper = modelMapper;
     }
 
-
     @Override
-    public ResponseEntity<Object> save(Reply reply, HttpServletRequest request) {
-        if(reply==null)
+    public ResponseEntity<Object> save(Vote vote, HttpServletRequest request) {
+        if(vote==null)
         {
             return new ResponseHandler().generateResponse(
                     "Data tidak Valid",//message
@@ -70,11 +68,11 @@ public class ReplyService implements IService<Reply> {
         }
 
         try{
-            replyRepo.save(reply);
+            voteRepo.save(vote);
 
         }catch (Exception e)
         {
-            strExceptionArr[1] = "save(Reply reply, HttpServletRequest request) --- LINE 59 \n"+ RequestCapture.allRequest(request);
+            strExceptionArr[1] = "save(Vote vote, HttpServletRequest request) --- LINE 59 \n"+ RequestCapture.allRequest(request);
             LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfiguration.getFlagLoging());
             LogTable.inputLogRequest(logRequestRepo,strExceptionArr,e,OtherConfiguration.getFlagLogTable());
             return new ResponseHandler().generateResponse(
@@ -96,16 +94,36 @@ public class ReplyService implements IService<Reply> {
     }
 
     @Override
-    public ResponseEntity<Object> update(Long id, Reply reply, HttpServletRequest request) throws Exception {
-    Optional<Reply> opReply;
-    Reply replyTrans;
-    Boolean isValid = true;
+    public ResponseEntity<Object> update(Long id, Vote vote, HttpServletRequest request) throws Exception {
+        Optional<Vote> optionalVote;
+        Vote voteTrans;
+        Boolean isValid = true;
 
         try{
-        opReply =  replyRepo.findById(id);
+            optionalVote =  voteRepo.findById(id);
 
-        if(opReply.isEmpty())
+            if(optionalVote.isEmpty())
+            {
+                return new ResponseHandler().generateResponse(
+                        "Data tidak Valid",//message
+                        HttpStatus.BAD_REQUEST,//httpstatus
+                        null,//object
+                        "FV002011",//errorCode Fail Validation modul-code 001 sequence 001 range 011 - 020
+                        request
+                );
+            }
+
+            voteTrans = optionalVote.get();
+            //UNTUK METHOD PATCH
+//            (barangTrans.getKategoriBarang()!=null || !barangTrans.getKategoriBarang().equals(""))?barangTrans.setKategoriBarang(barang.getKategoriBarang()):barangTrans.setKategoriBarang(barangTrans.setKategoriBarang());
+            voteTrans.setIsVote(vote.getIsVote());
+        }
+        catch (Exception e)
         {
+            isValid = false;
+            strExceptionArr[1] = "update(Long id, Vote vote, HttpServletRequest request) --- LINE 119 \n"+RequestCapture.allRequest(request);
+            LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfiguration.getFlagLoging());
+            LogTable.inputLogRequest(logRequestRepo,strExceptionArr,e,OtherConfiguration.getFlagLogTable());
             return new ResponseHandler().generateResponse(
                     "Data tidak Valid",//message
                     HttpStatus.BAD_REQUEST,//httpstatus
@@ -115,41 +133,20 @@ public class ReplyService implements IService<Reply> {
             );
         }
 
-        replyTrans = opReply.get();
-        //UNTUK METHOD PATCH
-//            (barangTrans.getKategoriBarang()!=null || !barangTrans.getKategoriBarang().equals(""))?barangTrans.setKategoriBarang(barang.getKategoriBarang()):barangTrans.setKategoriBarang(barangTrans.setKategoriBarang());
-        replyTrans.setComment(reply.getComment());
-
-    }
-        catch (Exception e)
-    {
-        isValid = false;
-        strExceptionArr[1] = "update(Long id, Barang barang, HttpServletRequest request) --- LINE 119 \n"+RequestCapture.allRequest(request);
-        LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfiguration.getFlagLoging());
-        LogTable.inputLogRequest(logRequestRepo,strExceptionArr,e,OtherConfiguration.getFlagLogTable());
-        return new ResponseHandler().generateResponse(
-                "Data tidak Valid",//message
-                HttpStatus.BAD_REQUEST,//httpstatus
-                null,//object
-                "FV002011",//errorCode Fail Validation modul-code 001 sequence 001 range 011 - 020
-                request
-        );
-    }
-
         return new ResponseHandler().generateResponse(
                 "Data Berhasil Diubah",//message
                 HttpStatus.CREATED,//httpstatus seharusnya no content 204 (permintaan berhasil tapi tidak ada content untuk dikirim dalam response)
                 null,//object
-                        null,//errorCode diisi null ketika data berhasil disimpan
+                null,//errorCode diisi null ketika data berhasil disimpan
                 request
-                );
-}
+        );
+    }
+
     @Override
     public ResponseEntity<Object> delete(Long id, HttpServletRequest request) {
+        Optional<Vote> voteTrans =  voteRepo.findById(id);
 
-        Optional<Reply> replyTrans =  replyRepo.findById(id);
-
-        if(replyTrans.isEmpty())
+        if(voteTrans.isEmpty())
         {
             return new ResponseHandler().generateResponse(
                     "Data tidak Valid",//message
@@ -161,7 +158,7 @@ public class ReplyService implements IService<Reply> {
         }
 
         try{
-            replyRepo.deleteById(id);
+            voteRepo.deleteById(id);
         }catch (Exception e)
         {
             strExceptionArr[1] = "delete(Long id, HttpServletRequest request) --- LINE 164 \n"+RequestCapture.allRequest(request);
@@ -185,17 +182,17 @@ public class ReplyService implements IService<Reply> {
     }
 
     @Override
-    public ResponseEntity<Object> saveBatch(List<Reply> lt, HttpServletRequest request) {
+    public ResponseEntity<Object> saveBatch(List<Vote> lt, HttpServletRequest request) {
         return null;
     }
 
     @Override
     public ResponseEntity<Object> findById(Long id, HttpServletRequest request) {
-        Optional<Reply> replyTrans ;
-        ReplyDTO replyDTO;
+        Optional<Vote> voteTrans ;
+        VoteDTO voteDTO;
         try{
-            replyTrans  = replyRepo.findById(id);//select barang dari db
-            if(replyTrans==null)
+            voteTrans  = voteRepo.findById(id);//select barang dari db
+            if(voteTrans==null)
             {
                 return new ResponseHandler().generateResponse(
                         "Data tidak Ditemukan",//message
@@ -206,7 +203,7 @@ public class ReplyService implements IService<Reply> {
                 );
             }
 
-            replyDTO = modelMapper.map(replyTrans, new TypeToken<ReplyDTO>() {}.getType());
+            voteDTO = modelMapper.map(voteTrans, new TypeToken<PostDTO>() {}.getType());
 
         }catch (Exception e)
         {
@@ -226,7 +223,7 @@ public class ReplyService implements IService<Reply> {
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK
-                replyDTO,//object
+                voteDTO,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );
@@ -239,54 +236,15 @@ public class ReplyService implements IService<Reply> {
 
     @Override
     public ResponseEntity<Object> findAllByPage(Integer page, Integer size, HttpServletRequest request) {
-        Page<Reply> pageReply;
-        List<ReplyDTO> listReplyDTO;
-        try
-        {
-            Pageable pageable = PageRequest.of(page,size, Sort.by("idBarang"));
-            pageReply = replyRepo.findAll(pageable);
-            int dataSize = pageReply.getContent().size();
-            if(dataSize==0)
-            {
-                return new ResponseHandler().generateResponse(
-                        "Data tidak Ditemukan",//message
-                        HttpStatus.NOT_FOUND,//httpstatus
-                        null,//object
-                        "FV002061",//errorCode Fail Validation modul-code 001 sequence 001 range 061 - 070
-                        request
-                );
-            }
-            listReplyDTO = modelMapper.map(pageReply.getContent(), new TypeToken<List<ReplyDTO>>() {}.getType());
-
-
-        }catch (Exception e)
-        {
-            strExceptionArr[1] = "findAllByPage(Integer page, Integer size, HttpServletRequest request) --- LINE 346 \n"+RequestCapture.allRequest(request);
-            LoggingFile.exceptionStringz(strExceptionArr, e, OtherConfiguration.getFlagLoging());
-            return new ResponseHandler().generateResponse(
-                    "Data tidak Valid",//message
-                    HttpStatus.INTERNAL_SERVER_ERROR,//httpstatus
-                    null,//object
-                    "FE002061",//errorCode Fail Validation modul-code 001 sequence 001 range 061 - 070
-                    request
-            );
-        }
-        return new ResponseHandler().generateResponse(
-                "Data Ditemukan",//message
-                HttpStatus.OK,//httpstatus OK
-                transformDataPaging.mapDataPaging(mapz,pageReply,listReplyDTO),//object
-                null,//errorCode diisi null ketika data berhasil disimpan
-                request
-        );
+        return null;
     }
 
     @Override
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
-
-        List<Reply> listReply;
+        List<Vote> listVote;
         try{
-            listReply = replyRepo.findAll();
-            if(listReply.size()==0)
+            listVote = voteRepo.findAll();
+            if(listVote.size()==0)
             {
                 return new ResponseHandler().generateResponse(
                         "Data tidak Ditemukan",//message
@@ -312,7 +270,7 @@ public class ReplyService implements IService<Reply> {
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK
-                listReply,//object
+                listVote,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );

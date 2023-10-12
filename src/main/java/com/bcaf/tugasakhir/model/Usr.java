@@ -35,6 +35,18 @@ public class Usr {
     @Column(name = "Token")
     private String token;
 
+    @OneToMany(mappedBy = "user")
+    @JsonBackReference
+    private List<Vote> listVote;
+
+    public List<Vote> getListVote() {
+        return listVote;
+    }
+
+    public void setListVote(List<Vote> listVote) {
+        this.listVote = listVote;
+    }
+
     public Long getIdUser() {
         return idUser;
     }
