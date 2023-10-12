@@ -50,7 +50,7 @@ public class Crypto {
 
     public static void main(String[] args) {
 
-        String strToEncrypt = "sa";//put text to encrypt in here
+        String strToEncrypt = "edo123";//put text to encrypt in here
         String encryptionResult = new Crypto().performEncrypt(strToEncrypt);
         System.out.println("Encryption Result : "+encryptionResult);
         // KEY -> aafd12f438cae52538b479e3199ddec2f06cb58faafd12f6
@@ -59,7 +59,7 @@ public class Crypto {
         //ENCRYPT -> bdcc9507be280e3e5489a5dce01b42ea
         //KEY -> aafd12f438cae52538b479e2089ddec2f06cb58faafd12f6
 
-        String strToDecrypt = "528b01943544a1dcef7a692a0628e46b";//put text to decrypt in here
+        String strToDecrypt = "79f2c9dcd4880f7b1e96c71a87b6a9f6";//put text to decrypt in here
         String decriptionResult = new Crypto().performDecrypt(strToDecrypt);
         System.out.println("Decryption Result : "+decriptionResult);
 
