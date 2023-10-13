@@ -2,14 +2,18 @@ package com.bcaf.tugasakhir.dto;
 
 import com.bcaf.tugasakhir.model.Reply;
 import com.bcaf.tugasakhir.model.Usr;
+import com.bcaf.tugasakhir.model.Vote;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 public class PostDTO {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "IdPost")
     private Long idPost;
 
     private String judulPost;
@@ -26,8 +30,8 @@ public class PostDTO {
 
     private UsrDTO user;
 
+    private List<GetReplyDTO> listReply;
 
-    List<ReplyDTO> listReply;
 
     public Long getIdPost() {
         return idPost;
@@ -93,11 +97,11 @@ public class PostDTO {
         this.user = user;
     }
 
-    public List<ReplyDTO> getListReply() {
+    public List<GetReplyDTO> getListReply() {
         return listReply;
     }
 
-    public void setListReply(List<ReplyDTO> listReply) {
+    public void setListReply(List<GetReplyDTO> listReply) {
         this.listReply = listReply;
     }
 }
