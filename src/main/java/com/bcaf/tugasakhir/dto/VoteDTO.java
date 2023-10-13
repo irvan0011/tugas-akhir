@@ -10,9 +10,9 @@ import javax.persistence.ManyToOne;
 
 public class VoteDTO {
     private Long idVote;
-    private Boolean isVote;
-    private Post post;
-    private Usr user;
+    private Boolean isVote = true;
+    private PostDTO post;
+    private UsrDTO user;
 
     public Long getIdVote() {
         return idVote;
@@ -30,19 +30,27 @@ public class VoteDTO {
         this.isVote = isVote;
     }
 
-    public Post getPost() {
+    public Boolean getVote() {
+        return isVote;
+    }
+
+    public void setVote(Boolean vote) {
+        isVote = vote;
+    }
+
+    public PostDTO getPost() {
         return post;
     }
 
-    public void setPost(Post post) {
+    public void setPost(PostDTO post) {
         this.post = post;
     }
 
-    public Usr getUser() {
+    public UsrDTO getUser() {
         return user;
     }
 
-    public void setUser(Usr user) {
+    public void setUser(UsrDTO user) {
         this.user = user;
     }
 }

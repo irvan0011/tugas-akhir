@@ -13,7 +13,7 @@ public class Vote implements Serializable {
     private Long idVote;
 
     @Column(name= "IsVote")
-    private Boolean isVote;
+    private Boolean isVote = true;
 
     @ManyToOne
     @JoinColumn(name = "IdPostz", foreignKey = @ForeignKey(name = "fkVotetoPost"))

@@ -24,9 +24,9 @@ public class PostDTO {
 
     private Date tanggalPost = new Date();
 
-    private LoginDTO user;
+    private UsrDTO user;
 
-    @JsonBackReference
+
     List<ReplyDTO> listReply;
 
     public Long getIdPost() {
@@ -85,11 +85,11 @@ public class PostDTO {
         this.tanggalPost = tanggalPost;
     }
 
-    public LoginDTO getUser() {
+    public UsrDTO getUser() {
         return user;
     }
 
-    public void setUser(LoginDTO user) {
+    public void setUser(UsrDTO user) {
         this.user = user;
     }
 

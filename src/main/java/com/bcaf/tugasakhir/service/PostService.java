@@ -273,8 +273,12 @@ public class PostService implements IService<Post> {
     @Override
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         List<Post> listPost;
+
+        List<PostDTO> listpostDTO;
         try{
             listPost = postRepo.findAll();
+
+            listpostDTO = modelMapper.map(listPost,new TypeToken<List<PostDTO>>() {}.getType());
             if(listPost.size()==0)
             {
                 return new ResponseHandler().generateResponse(
@@ -301,7 +305,7 @@ public class PostService implements IService<Post> {
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK
-                listPost,//object
+                listpostDTO,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );

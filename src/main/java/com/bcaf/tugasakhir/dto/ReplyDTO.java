@@ -1,12 +1,15 @@
 package com.bcaf.tugasakhir.dto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.Date;
 
 public class ReplyDTO {
     private Long idReply;
     private String comment;
-    private String idUser;
+    private UsrDTO user;
+    @JsonBackReference
     private PostDTO post;
-    private Date tanggalReply;
+    private Date tanggalReply = new Date();
 
     public Long getIdReply() {
         return idReply;
@@ -24,12 +27,12 @@ public class ReplyDTO {
         this.comment = comment;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public UsrDTO getUser() {
+        return user;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setUser(UsrDTO user) {
+        this.user = user;
     }
 
     public PostDTO getPost() {
