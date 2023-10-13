@@ -3,6 +3,7 @@ package com.bcaf.tugasakhir.service;
 import com.bcaf.tugasakhir.configuration.OtherConfiguration;
 import com.bcaf.tugasakhir.core.IService;
 import com.bcaf.tugasakhir.dto.ReplyDTO;
+import com.bcaf.tugasakhir.dto.VotePostDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
 import com.bcaf.tugasakhir.model.Reply;
@@ -284,8 +285,10 @@ public class ReplyService implements IService<Reply> {
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
 
         List<Reply> listReply;
+        List<ReplyDTO> listVoteDTO;
         try{
             listReply = replyRepo.findAll();
+            listVoteDTO = modelMapper.map(listReply, new TypeToken<List<ReplyDTO>>() {}.getType());
             if(listReply.size()==0)
             {
                 return new ResponseHandler().generateResponse(
@@ -312,7 +315,7 @@ public class ReplyService implements IService<Reply> {
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK
-                listReply,//object
+                listVoteDTO,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );
