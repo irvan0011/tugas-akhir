@@ -4,6 +4,7 @@ import com.bcaf.tugasakhir.configuration.OtherConfiguration;
 import com.bcaf.tugasakhir.core.IService;
 import com.bcaf.tugasakhir.dto.PostDTO;
 import com.bcaf.tugasakhir.dto.VoteDTO;
+import com.bcaf.tugasakhir.dto.VotePostDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
 import com.bcaf.tugasakhir.model.Post;
@@ -45,16 +46,13 @@ public class VoteService implements IService<Vote> {
     private LogService logService;
     private ModelMapper modelMapper;
 
-    public VoteService(VoteRepo voteRepo) {
-        strExceptionArr[0] = "VoteService";
-        this.voteRepo = voteRepo;
-    }
 
     @Autowired
-    public VoteService(VoteRepo voteRepo, ModelMapper modelMapper) {
+    public VoteService(VoteRepo voteRepo, ModelMapper modelMapper,PostRepo postRepo) {
         strExceptionArr[0] = "VoteService";
         this.voteRepo = voteRepo;
         this.modelMapper = modelMapper;
+        this.postRepo = postRepo;
     }
 
     @Override
@@ -88,7 +86,7 @@ public class VoteService implements IService<Vote> {
                 vote.getPost();
                 voteRepo.save(vote1);
                 Optional<Post> post;
-                post = postRepo.findById(vote1.getPost().getIdPost());
+                post = postRepo.findById(vote.getPost().getIdPost());
                 Post post1 = post.get();
                 post1.setUpvote(voteRepo.findByPostAndIsVote(vote.getPost(),true ).size());
                 postRepo.save(post1);
@@ -266,8 +264,10 @@ public class VoteService implements IService<Vote> {
     @Override
     public ResponseEntity<Object> findAll(HttpServletRequest request) {
         List<Vote> listVote;
+        List<VotePostDTO> listVoteDTO;
         try{
             listVote = voteRepo.findAll();
+            listVoteDTO = modelMapper.map(listVote, new TypeToken<List<VotePostDTO>>() {}.getType());
             if(listVote.size()==0)
             {
                 return new ResponseHandler().generateResponse(
@@ -294,7 +294,7 @@ public class VoteService implements IService<Vote> {
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK
-                listVote,//object
+                listVoteDTO,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );

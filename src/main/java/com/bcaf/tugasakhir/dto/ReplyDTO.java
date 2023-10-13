@@ -7,8 +7,7 @@ public class ReplyDTO {
     private Long idReply;
     private String comment;
     private UsrDTO user;
-    @JsonBackReference
-    private PostDTO post;
+    private ReplyPostDTO post;
     private Date tanggalReply = new Date();
 
     public Long getIdReply() {
@@ -35,11 +34,11 @@ public class ReplyDTO {
         this.user = user;
     }
 
-    public PostDTO getPost() {
+    public ReplyPostDTO getPost() {
         return post;
     }
 
-    public void setPost(PostDTO post) {
+    public void setPost(ReplyPostDTO post) {
         this.post = post;
     }
 
