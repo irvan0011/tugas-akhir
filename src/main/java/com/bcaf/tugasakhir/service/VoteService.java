@@ -240,8 +240,6 @@ public class VoteService implements IService<Vote> {
                     request
             );
         }
-
-
         return new ResponseHandler().generateResponse(
                 "Data Ditemukan",//message
                 HttpStatus.OK,//httpstatus OK

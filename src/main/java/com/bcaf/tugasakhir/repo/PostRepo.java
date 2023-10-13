@@ -9,4 +9,8 @@ import java.util.Optional;
 
 public interface PostRepo extends JpaRepository<Post, Long> {
     public Page<Post> findByJudulPostContains(Pageable p, String val);
+    public Page<Post> findByOrderByUpvoteDesc(Pageable p);
+    public Page<Post> findByOrderByUpvoteAsc(Pageable p);
+    public Page<Post> findByOrderByTanggalPostDesc(Pageable p);
+    public Page<Post> findByOrderByTanggalPostAsc(Pageable p);
 }

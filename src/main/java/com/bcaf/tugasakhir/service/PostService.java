@@ -224,11 +224,20 @@ public class PostService implements IService<Post> {
         List<PostDTO> listPostDTO;
 
         try{
-            Pageable pageable = PageRequest.of(page,size, Sort.by("idPost"));
-            if(columFirst.equals("judulPost"))
+            Pageable pageable = PageRequest.of(page,size);
+            if(columFirst.equalsIgnoreCase("judul"))
             {
                 pagePost = postRepo.findByJudulPostContains(pageable,valueFirst);
-            } else {
+            }
+            else if(columFirst.equalsIgnoreCase("upvote")){
+                pagePost = postRepo.findByOrderByUpvoteDesc(pageable);
+            }else if(columFirst.equalsIgnoreCase("downvote")){
+                pagePost = postRepo.findByOrderByUpvoteAsc(pageable);
+            }else if(columFirst.equalsIgnoreCase("terbaru")){
+                pagePost = postRepo.findByOrderByTanggalPostDesc(pageable);
+            }else if(columFirst.equalsIgnoreCase("terlama")){
+                pagePost = postRepo.findByOrderByTanggalPostAsc(pageable);
+            }else {
                 pagePost = postRepo.findAll(pageable);
             }
             listPostDTO = modelMapper.map(pagePost.getContent(), new TypeToken<List<PostDTO>>() {}.getType());
