@@ -3,6 +3,7 @@ package com.bcaf.tugasakhir.service;
 import com.bcaf.tugasakhir.configuration.OtherConfiguration;
 import com.bcaf.tugasakhir.core.IService;
 import com.bcaf.tugasakhir.dto.PostDTO;
+import com.bcaf.tugasakhir.dto.ReplyDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
 import com.bcaf.tugasakhir.model.Post;
@@ -278,7 +279,7 @@ public class PostService implements IService<Post> {
         try{
             listPost = postRepo.findAll();
 
-            listpostDTO = modelMapper.map(listPost,new TypeToken<List<PostDTO>>() {}.getType());
+            listpostDTO = modelMapper.map(listPost, new TypeToken<List<PostDTO>>() {}.getType());
             if(listPost.size()==0)
             {
                 return new ResponseHandler().generateResponse(
