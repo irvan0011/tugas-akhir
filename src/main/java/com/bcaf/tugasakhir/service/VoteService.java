@@ -6,8 +6,10 @@ import com.bcaf.tugasakhir.dto.PostDTO;
 import com.bcaf.tugasakhir.dto.VoteDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
+import com.bcaf.tugasakhir.model.Post;
 import com.bcaf.tugasakhir.model.Vote;
 import com.bcaf.tugasakhir.repo.LogRequestRepo;
+import com.bcaf.tugasakhir.repo.PostRepo;
 import com.bcaf.tugasakhir.repo.VoteRepo;
 import com.bcaf.tugasakhir.util.LogTable;
 import com.bcaf.tugasakhir.util.LoggingFile;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class VoteService implements IService<Vote> {
 
     private VoteRepo voteRepo;
+    private PostRepo postRepo;
 
     private String [] strExceptionArr = new String[2];
 
@@ -68,7 +71,28 @@ public class VoteService implements IService<Vote> {
         }
 
         try{
-            voteRepo.save(vote);
+            Optional<Vote> find;
+            find = voteRepo.findByPostAndUser(vote.getPost(),vote.getUser());
+            Integer totVote ;
+            if (find.isEmpty()){
+                Optional<Post> post;
+                post = postRepo.findById(vote.getPost().getIdPost());
+                Post post1 = post.get();
+                voteRepo.save(vote);
+                post1.setUpvote(voteRepo.findByPostAndIsVote(vote.getPost(),true ).size());
+                postRepo.save(post1);
+
+            }else {
+                Vote vote1 = find.get();
+                vote1.setIsVote(vote1.getIsVote()!=vote.getIsVote());
+                vote.getPost();
+                voteRepo.save(vote1);
+                Optional<Post> post;
+                post = postRepo.findById(vote1.getPost().getIdPost());
+                Post post1 = post.get();
+                post1.setUpvote(voteRepo.findByPostAndIsVote(vote.getPost(),true ).size());
+                postRepo.save(post1);
+            }
 
         }catch (Exception e)
         {

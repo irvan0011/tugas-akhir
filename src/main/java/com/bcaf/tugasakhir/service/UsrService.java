@@ -151,20 +151,17 @@ public class UsrService implements UserDetailsService{
         Optional<Usr> usr = usrRepo.findByUserName(loginDTO.getUserName());
         Usr usrNext = usr.get();
         Map<String,Object> mapz = new HashMap<>();
-        mapz.put("email",usrNext.getEmail());
-        mapz.put("userName",usrNext.getUserName());
-        mapz.put("nama",usrNext.getNama());
-        mapz.put("jenisKelamin",usrNext.getJenisKelamin());
+        mapz.put("id",usrNext.getIdUser());
 
 
         if (bCryptPasswordEncoder.matches( loginDTO.getPassword()+OtherConfiguration.getFlagPwdTrap(),userDetails.getPassword())){
 
             String token = jwtUtility.generateToken(userDetails,mapz);
-
+            mapz.put("token",token);
             return new ResponseHandler().generateResponse(
                     "Otentikasi Berhasil",//message
                     HttpStatus.OK,//httpstatus created
-                    token,//object
+                    mapz,//object
                     null,//errorCode diisi null ketika data berhasil disimpan
                     request
             );

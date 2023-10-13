@@ -17,8 +17,9 @@ public class Reply implements Serializable{
     @Column(name = "Comment")
     private String comment;
 
-    @Column(name = "IdUser")
-    private String idUser;
+    @ManyToOne
+    @JoinColumn(name = "IdUserz", foreignKey = @ForeignKey(name = "fkReplytoUserzz"))
+    private Usr user;
 
     @ManyToOne
     @JoinColumn(name = "IdPostz", foreignKey = @ForeignKey(name = "fkReplytoPost"))
@@ -43,12 +44,12 @@ public class Reply implements Serializable{
         this.comment = comment;
     }
 
-    public String getIdUser() {
-        return idUser;
+    public Usr getUser() {
+        return user;
     }
 
-    public void setIdUser(String idUser) {
-        this.idUser = idUser;
+    public void setUser(Usr user) {
+        this.user = user;
     }
 
     public Post getPost() {
