@@ -39,7 +39,7 @@ public class RegisterDTO {
     @NotBlank
     @NotEmpty
     @Length(min = 10,max = 60)
-    private String nama;
+    private String name;
 
     @NotNull
     @NotBlank
@@ -81,12 +81,12 @@ public class RegisterDTO {
         this.password = password;
     }
 
-    public String getNama() {
-        return nama;
+    public String getName() {
+        return name;
     }
 
-    public void setNama(String nama) {
-        this.nama = nama;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getJenisKelamin() {

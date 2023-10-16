@@ -4,9 +4,11 @@ import com.bcaf.tugasakhir.configuration.OtherConfiguration;
 import com.bcaf.tugasakhir.core.IService;
 import com.bcaf.tugasakhir.dto.PostDTO;
 import com.bcaf.tugasakhir.dto.ReplyDTO;
+import com.bcaf.tugasakhir.dto.UsrDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
 import com.bcaf.tugasakhir.model.Post;
+import com.bcaf.tugasakhir.model.Usr;
 import com.bcaf.tugasakhir.repo.LogRequestRepo;
 import com.bcaf.tugasakhir.repo.PostRepo;
 import com.bcaf.tugasakhir.util.LogTable;
@@ -237,6 +239,12 @@ public class PostService implements IService<Post> {
                 pagePost = postRepo.findByOrderByTanggalPostDesc(pageable);
             }else if(columFirst.equalsIgnoreCase("terlama")){
                 pagePost = postRepo.findByOrderByTanggalPostAsc(pageable);
+            }else if(columFirst.equalsIgnoreCase("user")){
+                UsrDTO usrDTO=new UsrDTO();
+                usrDTO.setIdUser(Long.parseLong(valueFirst) );
+               Usr usr = modelMapper.map(usrDTO, new TypeToken<Usr>() {}.getType());
+
+                pagePost = postRepo.findByUser(pageable,usr);
             }else {
                 pagePost = postRepo.findAll(pageable);
             }

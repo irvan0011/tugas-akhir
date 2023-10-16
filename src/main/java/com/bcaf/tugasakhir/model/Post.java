@@ -23,13 +23,13 @@ public class Post implements Serializable {
     @Column(name = "Email")
     private String email;
 
-    @Column(name = "Deskripsi")
+    @Column(name = "Deskripsi",length = 5000)
     private String deskripsi;
 
     @Column(name = "Upvote")
     private Integer upvote;
 
-    @Column(name = "FotoKonten")
+    @Column(name = "FotoKonten",length = 5000)
     private String fotoKonten;
 
     @Column(name = "TanggalPost",columnDefinition = "DATETIME NOT NULL default GETDATE()")
