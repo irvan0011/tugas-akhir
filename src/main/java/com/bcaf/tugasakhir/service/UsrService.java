@@ -99,7 +99,7 @@ public class UsrService implements UserDetailsService{
                 usrNext = optionalUsr.get();
                 usrNext.setEmail(usr.getEmail());
                 usrNext.setPassword(bCryptPasswordEncoder.encode(usr.getPassword()+OtherConfiguration.getFlagPwdTrap()));
-                usrNext.setNama(usr.getNama());
+                usrNext.setName(usr.getName());
                 usrNext.setJenisKelamin(usr.getJenisKelamin());
                 usrNext.setUserName(usr.getUserName());
                 usrNext.setToken(bCryptPasswordEncoder.encode(strToken));

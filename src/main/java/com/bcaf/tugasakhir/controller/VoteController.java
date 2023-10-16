@@ -31,6 +31,12 @@ public class VoteController {
         Vote vote = modelMapper.map(voteDTO, new TypeToken<Vote>() {}.getType());
         return voteService.save(vote,request);
     }
+    @GetMapping("/v1/isvote")
+    public ResponseEntity<Object> isvote(@RequestBody VoteDTO voteDTO, HttpServletRequest request)
+    {
+        Vote vote = modelMapper.map(voteDTO, new TypeToken<Vote>() {}.getType());
+        return voteService.isvote(vote,request);
+    }
 
     @PutMapping("/v1/upd/{id}")
     public ResponseEntity<Object> update(@PathVariable(value = "id") Long id, @RequestBody VoteDTO voteDTO, HttpServletRequest request)

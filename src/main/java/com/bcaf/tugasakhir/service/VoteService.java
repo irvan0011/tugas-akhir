@@ -8,6 +8,7 @@ import com.bcaf.tugasakhir.dto.VotePostDTO;
 import com.bcaf.tugasakhir.handler.RequestCapture;
 import com.bcaf.tugasakhir.handler.ResponseHandler;
 import com.bcaf.tugasakhir.model.Post;
+import com.bcaf.tugasakhir.model.Usr;
 import com.bcaf.tugasakhir.model.Vote;
 import com.bcaf.tugasakhir.repo.LogRequestRepo;
 import com.bcaf.tugasakhir.repo.PostRepo;
@@ -110,6 +111,55 @@ public class VoteService implements IService<Vote> {
                 "Data Berhasil Disimpan",//message
                 HttpStatus.CREATED,//httpstatus created
                 null,//object
+                null,//errorCode diisi null ketika data berhasil disimpan
+                request
+        );
+    }
+    public ResponseEntity<Object> isvote(Vote vote, HttpServletRequest request) {
+        Optional<VoteDTO> voteDTO;
+        Optional<Vote> find = null;
+        if(vote.getPost()==null || vote.getUser()==null)
+        {
+            return new ResponseHandler().generateResponse(
+                    "Data tidak Valid",//message
+                    HttpStatus.BAD_REQUEST,//httpstatus
+                    null,//object
+                    "FV002001",//errorCode Fail Validation modul-code 001 sequence 001 range 001 - 010
+                    request
+            );
+        }
+
+        try{
+            find = voteRepo.findByPostAndUser(vote.getPost(),vote.getUser());
+            if (find.isEmpty()){
+                Vote dto = find.get();
+                dto.setIsVote(false);
+                voteDTO =modelMapper.map(dto, new TypeToken<Optional<VoteDTO> >() {}.getType());
+
+            }else {
+                voteDTO =modelMapper.map(find, new TypeToken<Optional<VoteDTO> >() {}.getType());
+            }
+
+        }catch (Exception e)
+        {
+            Vote dt = vote;
+            dt.setIsVote(false);
+            dt.setPost(vote.getPost());
+            dt.setUser(vote.getUser());
+            voteDTO= modelMapper.map(dt, new TypeToken<Optional<VoteDTO> >() {}.getType());
+            return new ResponseHandler().generateResponse(
+                    "Data Berhasil Disimpan",//message
+                    HttpStatus.CREATED,//httpstatus created
+                    voteDTO,//object
+                    null,//errorCode diisi null ketika data berhasil disimpan
+                    request
+            );
+        }
+
+        return new ResponseHandler().generateResponse(
+                "Data Berhasil Disimpan",//message
+                HttpStatus.CREATED,//httpstatus created
+                voteDTO,//object
                 null,//errorCode diisi null ketika data berhasil disimpan
                 request
         );

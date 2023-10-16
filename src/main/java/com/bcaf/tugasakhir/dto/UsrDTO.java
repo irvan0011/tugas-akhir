@@ -13,8 +13,8 @@ public class UsrDTO {
 
     private Long idUser;
 
-private  String name;
-private  String jenisKelamin;
+    private  String name;
+    private  String jenisKelamin;
     @JsonBackReference
     private List<PostDTO> listPost;
 

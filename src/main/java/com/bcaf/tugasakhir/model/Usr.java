@@ -23,8 +23,8 @@ public class Usr {
     @Column(name = "Password")
     private String password;
 
-    @Column(name = "Nama")
-    private String nama;
+    @Column(name = "Name")
+    private String name;
 
     @Column(name = "FotoUser")
     private String fotoUser;
@@ -75,16 +75,17 @@ public class Usr {
         this.password = password;
     }
 
-    public String getNama() {
-        return nama;
-    }
-
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
 
     public String getFotoUser() {
         return fotoUser;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setFotoUser(String fotoUser) {
